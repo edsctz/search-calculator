@@ -8,6 +8,7 @@ function App() {
   const [avgOrderValue, setAvgOrderValue] = useState(160);
   const [avgAdditionalItemValue, setAvgAdditionalItemValue] = useState(15);
   const [isMonthly, setIsMonthly] = useState(true);
+  const [tooltip, setTooltip] = useState({ field: null, visible: false });
 
   const visitorsUseSearch = monthlyVisitors * (searchUsage / 100);
   const lostConversions = visitorsUseSearch * (unsuccessfulSearchRate / 100) * (conversionRate / 100) * 2;
@@ -45,6 +46,30 @@ function App() {
     setAvgAdditionalItemValue(numberValue);
   };
 
+  const toggleTooltip = (field) => {
+    setTooltip({
+      field: field,
+      visible: tooltip.field === field ? !tooltip.visible : true,
+    });
+  };
+
+  const getTooltipText = (field) => {
+    switch (field) {
+      case 'monthlyVisitors':
+        return 'Quantos visitantes seu site tem por mês';
+      case 'searchUsage':
+        return 'Quantidade de usuários que fazem buscas. Padrão de mercado é 30%';
+      case 'unsuccessfulSearchRate':
+        return 'Porcentagem de buscas que resultam em páginas sem resultados';
+      case 'avgOrderValue':
+        return 'Valor médio de cada pedido';
+      case 'avgAdditionalItemValue':
+        return 'Valor médio de um item adicional comprado';
+      default:
+        return '';
+    }
+  };
+
   const monthlyTotalLoss = formatCurrency(totalEstimatedLostRevenue);
   const annualTotalLoss = formatCurrency(totalEstimatedLostRevenue * 12);
 
@@ -66,10 +91,15 @@ function App() {
                   <label htmlFor="monthlyVisitors" className="block text-sm font-medium text-gray-700" style={{ color: '#101F22' }}>
                     Visitantes Mensais
                     <span
-                      title="Quantos visitantes seu site tem por mês"
+                      onClick={() => toggleTooltip('monthlyVisitors')}
                       className="ml-1 cursor-pointer text-gray-500" style={{ color: '#101F22' }}>
                       ⓘ
                     </span>
+                    {tooltip.field === 'monthlyVisitors' && tooltip.visible && (
+                      <div className="mt-1 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
+                        {getTooltipText('monthlyVisitors')}
+                      </div>
+                    )}
                   </label>
                   <input
                     type="text"
@@ -84,10 +114,15 @@ function App() {
                   <label htmlFor="searchUsage" className="block text-sm font-medium text-gray-700" style={{ color: '#101F22' }}>
                     % de Uso da Pesquisa
                     <span
-                      title="Quantidade de usuários que fazem buscas. Padrão de mercado é 30%"
+                      onClick={() => toggleTooltip('searchUsage')}
                       className="ml-1 cursor-pointer text-gray-500" style={{ color: '#101F22' }}>
                       ⓘ
                     </span>
+                    {tooltip.field === 'searchUsage' && tooltip.visible && (
+                      <div className="mt-1 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
+                        {getTooltipText('searchUsage')}
+                      </div>
+                    )}
                   </label>
                   <input
                     type="number"
@@ -102,10 +137,15 @@ function App() {
                   <label htmlFor="unsuccessfulSearchRate" className="block text-sm font-medium text-gray-700" style={{ color: '#101F22' }}>
                     Taxa de Pesquisa sem Sucesso
                     <span
-                      title="Porcentagem de buscas que resultam em páginas sem resultados"
+                      onClick={() => toggleTooltip('unsuccessfulSearchRate')}
                       className="ml-1 cursor-pointer text-gray-500" style={{ color: '#101F22' }}>
                       ⓘ
                     </span>
+                    {tooltip.field === 'unsuccessfulSearchRate' && tooltip.visible && (
+                      <div className="mt-1 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
+                        {getTooltipText('unsuccessfulSearchRate')}
+                      </div>
+                    )}
                   </label>
                   <input
                     type="number"
@@ -132,9 +172,16 @@ function App() {
                 <div>
                   <label htmlFor="avgOrderValue" className="block text-sm font-medium text-gray-700" style={{ color: '#101F22' }}>
                     Ticket Médio R$
-                    <span title="Valor médio de cada pedido" className="ml-1 cursor-pointer text-gray-500" style={{ color: '#101F22' }}>
+                    <span
+                      onClick={() => toggleTooltip('avgOrderValue')}
+                      className="ml-1 cursor-pointer text-gray-500" style={{ color: '#101F22' }}>
                       ⓘ
                     </span>
+                    {tooltip.field === 'avgOrderValue' && tooltip.visible && (
+                      <div className="mt-1 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
+                        {getTooltipText('avgOrderValue')}
+                      </div>
+                    )}
                   </label>
                   <input
                     type="number"
@@ -148,9 +195,16 @@ function App() {
                 <div>
                   <label htmlFor="avgAdditionalItemValue" className="block text-sm font-medium text-gray-700" style={{ color: '#101F22' }}>
                     Valor de Cada Item Adicional R$
-                    <span title="Valor médio de um item adicional comprado" className="ml-1 cursor-pointer text-gray-500" style={{ color: '#101F22' }}>
+                    <span
+                      onClick={() => toggleTooltip('avgAdditionalItemValue')}
+                      className="ml-1 cursor-pointer text-gray-500" style={{ color: '#101F22' }}>
                       ⓘ
                     </span>
+                    {tooltip.field === 'avgAdditionalItemValue' && tooltip.visible && (
+                      <div className="mt-1 p-2 bg-gray-100 rounded-md text-sm text-gray-700">
+                        {getTooltipText('avgAdditionalItemValue')}
+                      </div>
+                    )}
                   </label>
                   <input
                     type="number"
