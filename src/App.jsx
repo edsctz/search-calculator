@@ -283,7 +283,7 @@ function App() {
           </div>
           <div className="p-8" style={{ backgroundColor: '#101F22' }}>
             <a
-              href="https://retailrocket.pipedrive.com/scheduler/7pv3tO/meeting"
+              href="https://loadstone.pipedrive.com/scheduler/7pv3tO/reuniao-loadstone"
               className="w-full text-white py-3 rounded-md hover:bg-green-600 transition duration-300 block text-center" style={{ backgroundColor: '#9997F4' }}>
               {labels.solveThisProblem}
             </a>
